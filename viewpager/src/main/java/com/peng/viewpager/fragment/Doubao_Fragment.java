@@ -28,9 +28,9 @@ import java.util.concurrent.TimeUnit;
  * Created by Peng on 2016/8/7.
  */
 public class Doubao_Fragment extends Fragment {
-     /*private LayoutInflater inflater;我用的是打气筒的第一种方式
-    *view1 = View.inflate(getApplicationContext(), R.layout.item, null);
-    * */
+    /*private LayoutInflater inflater;我用的是打气筒的第一种方式
+   *view1 = View.inflate(getApplicationContext(), R.layout.item, null);
+   * */
     private ViewPager mviewPager;
     /**
      * 用于小圆点图片
@@ -66,10 +66,10 @@ public class Doubao_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_doubao, null);
-            /**
-             * viewpager bander图片轮播布局
-             * 图片底部圆点布局
-             */
+        /**
+         * viewpager bander图片轮播布局
+         * 图片底部圆点布局
+         */
         mviewPager = (ViewPager) view.findViewById(R.id.myviewPager);
         dotLayout = (LinearLayout) view.findViewById(R.id.dotLayout);
         /**
@@ -100,13 +100,14 @@ public class Doubao_Fragment extends Fragment {
              * Invalid soft wrap cache entries emerged: Invalid soft wrap cache entries emerged
              */
             ImageView dotView = new ImageView(getActivity().getApplicationContext());
-
+            /**
+             * 圆点的显示布局<Todo>不是很清楚</Todo>
+             */
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ActionBar.LayoutParams(
                     ActionBar.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
             params.leftMargin = 15;//设置小圆点的外边距
             params.rightMargin = 15;
-
             params.height = 20;//设置小圆点的大小
             params.width = 20;
 
@@ -116,18 +117,34 @@ public class Doubao_Fragment extends Fragment {
 
                 dotView.setBackgroundResource(R.drawable.point_unpressed);
             }
+            /**
+             * addView(View child, ViewGroup.LayoutParams params)
+             * Adds a child view with the specified layout parameters.将带有指定的布局参数的子视图添加
+             * the child view to add子视图添加
+             * the layout parameters to set on the child设置对孩子的布局参数
+             */
             dotLayout.addView(dotView, params);
-
+            /**
+             *在列表的结尾添加指定的对象。
+             * dotViewList用于小圆点图片
+             */
             dotViewList.add(dotView);
             //上面是动态添加了四个小圆点
         }
-
-
+        /**
+         * 取到scroll_vew_item布局里的ImageView
+         */
         ImageView img1 = (ImageView) View.inflate(getActivity().getApplicationContext(), R.layout.scroll_vew_item, null);
         ImageView img2 = (ImageView) View.inflate(getActivity().getApplicationContext(), R.layout.scroll_vew_item, null);
         ImageView img3 = (ImageView) View.inflate(getActivity().getApplicationContext(), R.layout.scroll_vew_item, null);
         ImageView img4 = (ImageView) View.inflate(getActivity().getApplicationContext(), R.layout.scroll_vew_item, null);
-
+        /**
+         * <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+         android:id="@+id/img"
+         android:scaleType="fitXY"把图片按照指定的大小在View中显示，拉伸显示图片，不保持原比例，填满View.
+         android:layout_width="match_parent"
+         android:layout_height="200.0dip"/>
+         */
         img1.setBackgroundResource(R.drawable.main_img1);
         img2.setBackgroundResource(R.drawable.main_img2);
         img3.setBackgroundResource(R.drawable.main_img3);
@@ -137,7 +154,9 @@ public class Doubao_Fragment extends Fragment {
         list.add(img2);
         list.add(img3);
         list.add(img4);
-
+        /**
+         * 设置图片轮播适配器
+         */
         ImagePaperAdapter adapter = new ImagePaperAdapter((ArrayList) list);
 
         mviewPager.setAdapter(adapter);
@@ -150,7 +169,7 @@ public class Doubao_Fragment extends Fragment {
      */
     private void startPlay() {
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduledExecutorService.scheduleAtFixedRate(new SlideShowTask(), 4, 4, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(new SlideShowTask(), 2, 4, TimeUnit.SECONDS);
         //根据他的参数说明，第一个参数是执行的任务，第二个参数是第一次执行的间隔，第三个参数是执行任务的周期；
     }
 
@@ -266,6 +285,7 @@ public class Doubao_Fragment extends Fragment {
     @Override
     public void onStop() {
         System.out.println("onStop");
+        scheduledExecutorService.shutdown();
         super.onStop();
     }
 

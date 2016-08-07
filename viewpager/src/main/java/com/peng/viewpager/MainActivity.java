@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
-
+  public static MainActivity mainActivity;
     private ViewPager mViewpager;
     private FragmentPagerAdapter mAdapter;
     private List<Fragment> mFragmentViews = new ArrayList<>();
@@ -29,6 +29,7 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mainActivity=this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
